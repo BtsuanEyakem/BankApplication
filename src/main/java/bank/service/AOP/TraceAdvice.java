@@ -22,7 +22,7 @@ public class TraceAdvice {
         this.logger = logger;
     }
 
-    @Before("execution(* bank.repository.AccountRepository.*(..))")
+    @Before("execution(* bank.repository.AccountJpaRepository.*(..))")
     public void beforeAdvice(JoinPoint joinPoint) {
         logger.log(" Before excution of method " +joinPoint.getSignature().getName());
        // System.out.println(LocalDate.now()+" Before excution of method " +joinPoint.getSignature().getName());

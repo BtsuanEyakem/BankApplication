@@ -4,6 +4,9 @@ import bank.domain.Account;
 import bank.domain.AccountEntry;
 import bank.domain.Customer;
 import bank.service.AccountService;
+import bank.service.DTO.AccountDTO.*;
+import bank.service.DTO.AccountEntryDTO.AccountEntryDTO;
+import bank.service.DTO.CustomerDTO.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -39,16 +42,18 @@ public class Application implements CommandLineRunner {
 		accountService.transferFunds(4253892, 1263862, 100, "payment of invoice 10232");
 
 		// show balances
-		Collection<Account> accountlist = accountService.getAllAccounts();
-		Customer customer = null;
-		for (Account account : accountlist) {
-			customer = account.getCustomer();
-			System.out.println("Statement for Account: " + account.getAccountNumber());
+		Collection<AccountDTO> accountlist = accountService.getAllAccountDTOs();
+		CustomerDTO customer = null;
+		//System.out.println(accountService.getAllAccountDTOs());
+		//System.out.println(accountService.getAllAccounts());
+		for (AccountDTO account : accountlist) {
+			customer = account.getCustomerDTO();
+			System.out.println("Statement for Account: " + account.getAccountNumberDTO());
 			System.out.println("Account Holder: " + customer.getName());
 			System.out.println("-Date-------------------------"
 					+ "-Description------------------"
 					+ "-Amount-------------");
-			for (AccountEntry entry : account.getEntryList()) {
+			for (AccountEntryDTO entry : account.getEntryListDTO()) {
 				System.out.printf("%30s%30s%20.2f\n", entry.getDate()
 						.toString(), entry.getDescription(), entry.getAmount());
 			}

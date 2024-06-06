@@ -4,18 +4,23 @@ import bank.domain.Account;
 import bank.domain.Customer;
 import bank.integration.jms.JMSSender;
 import bank.integration.logging.Logger;
-import bank.repository.AccountRepository;
+import bank.repository.AccountJpaRepository;
+import bank.service.DTO.AccountDTO.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @Service
+@Transactional
 public class AccountServiceImpl implements AccountService {
 
 	@Autowired
-	private AccountRepository accountRepository;
+	private AccountJpaRepository accountRepository;
 	@Autowired
 	private CurrencyConverter currencyConverter;
 	@Autowired
@@ -54,6 +59,18 @@ public class AccountServiceImpl implements AccountService {
 
 	public Collection<Account> getAllAccounts() {
 		return accountRepository.getAccounts();
+	}
+
+	public Collection<AccountDTO> getAllAccountDTOs() {
+		Collection<AccountDTO> accountDTOs = new ArrayList<>();
+		for (Account account : getAllAccounts()) {
+			accountDTOs.add(AccountAdaptor.AccountToAccountDTO(account));
+		}
+		return accountDTOs;
+	}
+
+	public AccountDTO getAccountDTO(Account account) {
+		return AccountAdaptor.AccountToAccountDTO(account);
 	}
 
 	public void withdraw(long accountNumber, double amount) {

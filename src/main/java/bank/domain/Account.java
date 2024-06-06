@@ -1,20 +1,31 @@
 package bank.domain;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-
+@Entity
 public class Account {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	long accountNumber;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	Collection<AccountEntry> entryList = new ArrayList<AccountEntry>();
 
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	Customer customer;
 
 	public Account (long accountnr){
 		this.accountNumber = accountnr;
+	}
+
+	public Account() {
+
 	}
 
 	public long getAccountNumber() {

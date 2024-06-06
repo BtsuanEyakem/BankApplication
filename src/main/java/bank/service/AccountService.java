@@ -1,6 +1,7 @@
 package bank.service;
 
 import bank.domain.Account;
+import bank.service.DTO.AccountDTO.*;
 
 import java.util.Collection;
 
@@ -21,5 +22,7 @@ public interface AccountService {
     public void withdrawEuros (long accountNumber, double amount);
 
     public void transferFunds(long fromAccountNumber, long toAccountNumber, double amount, String description);
+
+    public Collection<AccountDTO> getAllAccountDTOs();
 
 }
